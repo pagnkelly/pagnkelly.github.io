@@ -1823,7 +1823,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffaf38;
+  background: #4efff5;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2990,4 +2990,46 @@ pre .javascript .function {
   .post-body {
     text-align: justify;
   }
+}
+#daodream-container .daodream-launcher {
+  bottom: 80px !important;
+}
+.daodream-launcher-button,
+.daodream-launcher-maximized,
+.daodream-launcher-with-initials {
+  opacity: 0.3;
+  -moz-opacity: 0.3;
+  opacity: 0.3;
+}
+#daodream-launcher {
+  opacity: 0.1;
+  -moz-opacity: 0.1;
+  opacity: 0.1;
+}
+div.daodream-launcher-preview {
+  opacity: 0.9 !important;
+  -moz-opacity: 0.9 !important;
+  opacity: 0.9 !important;
+}
+#daodream-launcher:hover {
+  opacity: 0.9 !important;
+  -moz-opacity: 0.9 !important;
+  opacity: 0.9 !important;
+}
+.daodream-launcher-button:hover,
+.daodream-launcher-maximized:hover,
+.daodream-launcher-with-initials:hover {
+  opacity: 0.9 !important;
+  -moz-opacity: 0.9 !important;
+  opacity: 0.9 !important;
+}
+div.info,
+span.algolia-powered,
+div.daodream-powered-by {
+  visibility: hidden !important;
+  height: 0 !important;
+}
+div.txt-right {
+  visibility: hidden !important;
+  height: 0 !important;
 }

@@ -1823,7 +1823,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #4efff5;
+  background: #ebffc2;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3032,4 +3032,10 @@ div.daodream-powered-by {
 div.txt-right {
   visibility: hidden !important;
   height: 0 !important;
+}
+body {
+  background-image: url("/images/background.jpeg");
+  background-attachment: fixed;
+  background-size: 100%;
+  background-repeat: no-repeat;
 }

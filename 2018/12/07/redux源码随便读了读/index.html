@@ -99,7 +99,7 @@
 <meta property="og:image" content="https://github.com/pagnkelly/pagnkelly.github.io/blob/master/images/createStore.png?raw=true">
 <meta property="og:image" content="https://github.com/pagnkelly/pagnkelly.github.io/blob/master/images/jsflow.png?raw=true">
 <meta property="og:image" content="https://github.com/pagnkelly/pagnkelly.github.io/blob/master/images/ques.png?raw=true">
-<meta property="og:updated_time" content="2018-12-15T11:43:00.395Z">
+<meta property="og:updated_time" content="2018-12-15T11:44:11.363Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redux源码随便读了读">
 <meta name="twitter:description" content="redux源码浅析   祭出我多年珍藏的redux flow 你看这个redux又小又牛逼 respect skr~  如果你之前接触过redux应该看过无数次这个图了吧，组件触发一个动作，ActiconCreators生成一个action通过dipatch方法经过reducers处理返回新的state到store再触发重新render。  而今天讲的不光包括工作流程，还有redux初始化过程，以">
@@ -461,8 +461,7 @@
 <p>到这里，<code>createStore</code>里的参数都执行了一遍，又返回了各自的函数，接下来才是要执行createStore，让我们揭开<code>createStore</code>神秘的面纱。</p>
 <p><img src="https://github.com/pagnkelly/pagnkelly.github.io/blob/master/images/createStore.png?raw=true" alt="image"></p>
 <p>经过一系列判断， enhancer就是之前的<code>applyMiddleware</code>返回的函数，ta译为增强函数，把自己传进去，第二次调用再传进reducer和preloadedState（undefined）。然后<code>applyMiddleware</code>返回的函数再执行<code>createStore</code>。通过了前面判断了，接着执行<code>createStore</code>里定义的dispatch，dispatch才调用了一遍<code>reducer</code>。是不是很绕，那么让我来梳理一个图，你大概就能明白。</p>
-<p>###总结步骤</p>
-<p><img src="https://github.com/pagnkelly/pagnkelly.github.io/blob/master/images/jsflow.png?raw=true" alt="image"></p>
+<h3 id="总结步骤"><a href="#总结步骤" class="headerlink" title="总结步骤"></a>总结步骤</h3><p><img src="https://github.com/pagnkelly/pagnkelly.github.io/blob/master/images/jsflow.png?raw=true" alt="image"></p>
 <p>而combination在每次发送action都会调用。主要在最后两个步骤里，一个dispatch方法里。</p>
 <p><img src="https://github.com/pagnkelly/pagnkelly.github.io/blob/master/images/ques.png?raw=true" alt="image"></p>
 <h3 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h3><p>这里就是之前遗留的两个问题</p>
@@ -662,7 +661,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#redux源码浅析"><span class="nav-number">1.</span> <span class="nav-text">redux源码浅析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么使用redux？"><span class="nav-number">1.0.1.</span> <span class="nav-text">为什么使用redux？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源码开始"><span class="nav-number">1.0.2.</span> <span class="nav-text">源码开始</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缘起缘灭"><span class="nav-number">1.0.3.</span> <span class="nav-text">缘起缘灭</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按照步骤分析"><span class="nav-number">1.0.4.</span> <span class="nav-text">按照步骤分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遗留问题"><span class="nav-number">1.0.5.</span> <span class="nav-text">遗留问题</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#redux源码浅析"><span class="nav-number">1.</span> <span class="nav-text">redux源码浅析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么使用redux？"><span class="nav-number">1.0.1.</span> <span class="nav-text">为什么使用redux？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源码开始"><span class="nav-number">1.0.2.</span> <span class="nav-text">源码开始</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缘起缘灭"><span class="nav-number">1.0.3.</span> <span class="nav-text">缘起缘灭</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按照步骤分析"><span class="nav-number">1.0.4.</span> <span class="nav-text">按照步骤分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结步骤"><span class="nav-number">1.0.5.</span> <span class="nav-text">总结步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遗留问题"><span class="nav-number">1.0.6.</span> <span class="nav-text">遗留问题</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

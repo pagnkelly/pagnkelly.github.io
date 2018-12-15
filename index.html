@@ -453,8 +453,7 @@
 <p>到这里，<code>createStore</code>里的参数都执行了一遍，又返回了各自的函数，接下来才是要执行createStore，让我们揭开<code>createStore</code>神秘的面纱。</p>
 <p><img src="https://github.com/pagnkelly/pagnkelly.github.io/blob/master/images/createStore.png?raw=true" alt="image"></p>
 <p>经过一系列判断， enhancer就是之前的<code>applyMiddleware</code>返回的函数，ta译为增强函数，把自己传进去，第二次调用再传进reducer和preloadedState（undefined）。然后<code>applyMiddleware</code>返回的函数再执行<code>createStore</code>。通过了前面判断了，接着执行<code>createStore</code>里定义的dispatch，dispatch才调用了一遍<code>reducer</code>。是不是很绕，那么让我来梳理一个图，你大概就能明白。</p>
-<p>###总结步骤</p>
-<p><img src="https://github.com/pagnkelly/pagnkelly.github.io/blob/master/images/jsflow.png?raw=true" alt="image"></p>
+<h3 id="总结步骤"><a href="#总结步骤" class="headerlink" title="总结步骤"></a>总结步骤</h3><p><img src="https://github.com/pagnkelly/pagnkelly.github.io/blob/master/images/jsflow.png?raw=true" alt="image"></p>
 <p>而combination在每次发送action都会调用。主要在最后两个步骤里，一个dispatch方法里。</p>
 <p><img src="https://github.com/pagnkelly/pagnkelly.github.io/blob/master/images/ques.png?raw=true" alt="image"></p>
 <h3 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h3><p>这里就是之前遗留的两个问题</p>

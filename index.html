@@ -306,6 +306,213 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/17/nginx学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pagnkelly">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="困">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/17/nginx学习笔记/" itemprop="url">nginx学习笔记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-17T20:01:17+08:00">
+                2018-12-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="nginx学习笔记"><a href="#nginx学习笔记" class="headerlink" title="nginx学习笔记"></a>nginx学习笔记</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>mac os:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install nginx</span><br></pre></td></tr></table></figure></p>
+<p>ubuntu:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nginx</span><br></pre></td></tr></table></figure>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx</span><br></pre></td></tr></table></figure>
+<p><a href="http://localhost" target="_blank" rel="noopener">http://localhost</a>  检测是否访问成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nginx -s stop // 强制停掉</span><br><span class="line">nginx -s quit // 优雅停掉</span><br><span class="line">nginx -s reload // 重启</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef|grep nginx</span><br></pre></td></tr></table></figure>
+<p>nginx进程在启动的时候，会附带一个守护进程，用于保护正式进程不被异常终止；如果守护进程一旦发现nginx进程被终止了，会自动重启该进程。</p>
+<p>守护进程一般会称为master进程，业务进程被称为worker进程</p>
+<h2 id="nginx-conf"><a href="#nginx-conf" class="headerlink" title="nginx.conf"></a>nginx.conf</h2><p>mac下的nginx.conf位置: /usr/local/etc/nginx/nginx.conf</p>
+<p>可以命令搜索<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo find / -name nginx.conf</span><br></pre></td></tr></table></figure></p>
+<p>嫌麻烦打开，配置别名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// .zshrc code是vscode命令快捷打开功能</span><br><span class="line">alias ngc=&quot;code /usr/local/etc/nginx/nginx.conf&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">... #全局块</span><br><span class="line">events &#123; #events块</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http #http块</span><br><span class="line">&#123;</span><br><span class="line">    ... #http全局块</span><br><span class="line"></span><br><span class="line">    server #server块</span><br><span class="line">    &#123;</span><br><span class="line">        ... #server全局块</span><br><span class="line">        location [PATTERN] #location块</span><br><span class="line">        &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        location [PATTERN]</span><br><span class="line">        &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">    server</span><br><span class="line">    &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ... #http全局块</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="默认root路径"><a href="#默认root路径" class="headerlink" title="默认root路径"></a>默认root路径</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root html =&gt; /usr/local/Cellar/nginx/[version]/html</span><br><span class="line">root /var/www =&gt; /usr/local/var/www</span><br></pre></td></tr></table></figure>
+<h2 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       8080;</span><br><span class="line">    server_name  localhost;</span><br><span class="line">    location ...</span><br></pre></td></tr></table></figure>
+<p>我们访问<a href="http://xxx.com/proxy/index.html" target="_blank" rel="noopener">http://xxx.com/proxy/index.html</a></p>
+<p>case 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /proxy/ &#123;</span><br><span class="line">    proxy_pass  http://127.0.0.1/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>代理到 <a href="http://127.0.0.1/index.html" target="_blank" rel="noopener">http://127.0.0.1/index.html</a></p>
+</blockquote>
+<p>case 2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /proxy/ &#123;</span><br><span class="line">    proxy_pass  http://127.0.0.1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>代理到 <a href="http://127.0.0.1/proxy/index.html" target="_blank" rel="noopener">http://127.0.0.1/proxy/index.html</a></p>
+</blockquote>
+<p>case 3:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /proxy/ &#123;</span><br><span class="line">    proxy_pass  http://127.0.0.1/api/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>代理到 <a href="http://127.0.0.1/api/index.html" target="_blank" rel="noopener">http://127.0.0.1/api/index.html</a></p>
+</blockquote>
+<p>case 4:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /proxy/ &#123;</span><br><span class="line">    proxy_pass  http://127.0.0.1/api;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>代理到 <a href="http://127.0.0.1/apiindex.html" target="_blank" rel="noopener">http://127.0.0.1/apiindex.html</a></p>
+</blockquote>
+<p>看case 2 和 4是比较难理解的，为什么都是没有后面的/差别为什么这么大,个人理解，如果proxy_pass只是域名则只替换原地址域名，否则全部替换掉。</p>
+<p>用到的文件路径</p>
+<p>ng配置: nginx.conf =&gt; <code>/usr/local/etc/nginx</code></p>
+<p>访问日志: access.log =&gt; <code>/usr/local/var/log/nginx</code></p>
+<h2 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">方式</th>
+<th style="text-align:center">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">=PATH</td>
+<td style="text-align:center">精确匹配路径</td>
+</tr>
+<tr>
+<td style="text-align:center">^~PATH</td>
+<td style="text-align:center">使用正则表达式匹配URI的前半段</td>
+</tr>
+<tr>
+<td style="text-align:center">~PATH</td>
+<td style="text-align:center">使用正则表达式匹配URI，区分大小写</td>
+</tr>
+<tr>
+<td style="text-align:center">~*PATH</td>
+<td style="text-align:center">使用正则表达式匹配URI，不区分大小写</td>
+</tr>
+<tr>
+<td style="text-align:center">PATH</td>
+<td style="text-align:center">直接使用PATH匹配，表示在PATH路径下的资源</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">location = / &#123;                                  # 仅当URI为&quot;/&quot;时，使用A配置</span><br><span class="line">    [ configuration A ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location / &#123;                                    # URI为&quot;/&quot;下包含的路径时，使用B配置</span><br><span class="line">    [ configuration B ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location /documents/ &#123;                          # URI为&quot;/documents/&quot;下包含的路径时，使用C配置</span><br><span class="line">    [ configuration C ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location ^~ /images/ &#123;                         # URI靠前部分为&quot;/images/&quot;，使用D配置</span><br><span class="line">    [ configuration D ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location ~* \.(gif|jpg|jpeg)$ &#123;                   # URI结尾是gif、jpg或jpeg时，使用E配置</span><br><span class="line">    [ configuration E ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>按上述定义，和优先级规则。比如：</p>
+<p>“<a href="http://www.test.com/”匹配A配置；" target="_blank" rel="noopener">www.test.com/”匹配A配置；</a><br>“<a href="http://www.test.com/test”、”www.test.com/example”匹配B配置，因为URI都在”/”下；" target="_blank" rel="noopener">www.test.com/test”、”www.test.com/example”匹配B配置，因为URI都在”/”下；</a><br>“<a href="http://www.test.com/documents/test.html”匹配C配置，虽然它也符合B配置，但能匹配到的越长优先级越高；" target="_blank" rel="noopener">www.test.com/documents/test.html”匹配C配置，虽然它也符合B配置，但能匹配到的越长优先级越高；</a><br>“<a href="http://www.test.com/images/test.html”匹配D配置，虽然它也符合B配置，但正则表达式匹配前端字符优先级高；" target="_blank" rel="noopener">www.test.com/images/test.html”匹配D配置，虽然它也符合B配置，但正则表达式匹配前端字符优先级高；</a><br>“<a href="http://www.test.com/documents/test.jpg”匹配E配置，虽然它也符合C配置，但正则表达式匹配高于普通字符串。" target="_blank" rel="noopener">www.test.com/documents/test.jpg”匹配E配置，虽然它也符合C配置，但正则表达式匹配高于普通字符串。</a></p>
+<h2 id="配置https本地开发环境"><a href="#配置https本地开发环境" class="headerlink" title="配置https本地开发环境"></a>配置https本地开发环境</h2><p>在开发qtalk-web版本时遇到这样一个需求</p>
+<p><img src="../../public/images/q.png" alt="images"></p>
+<p>实现谷歌推送消息，经过调研发现这个需要在https协议下，api才会生效，当时搜出的方法就是nginx，可是由于时间紧迫并没有时间研究，使用的比较快捷有效的方法，恰巧beta环境有https的支持，那我本地用charles劫持了js代码到本地，利用beta环境变成本地的调试环境。</p>
+<p>我是通过这篇博客学习了https本地搭建</p>
+<p><a href="https://www.jianshu.com/p/fe0fadb38600" target="_blank" rel="noopener">https://www.jianshu.com/p/fe0fadb38600</a></p>
+<p>全局搜索配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo find / -name nginx.conf</span><br></pre></td></tr></table></figure>
+<p>证书及https配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/etc/nginx # 进入希望生成证书和私钥的目录，这里我们选择nginx.conf所在目录</span><br><span class="line">openssl genrsa -des3 -out server.key 1024   # 创建服务器私钥，该命令会让你输入一个口令</span><br><span class="line">openssl req -new -key server.key -out server.csr    # 创建签名请求的证书(CSR)</span><br><span class="line">cp server.key server.key.org    </span><br><span class="line">openssl rsa -in server.key.org -out server.key  # 在加载SSL支持的Nginx并使用上述私钥时除去必须的口令</span><br><span class="line">openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt  # 最后标记证书使用上述私钥和CSR</span><br></pre></td></tr></table></figure>
+<p>配置 nginx.config<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># HTTPS server</span><br><span class="line">    #</span><br><span class="line">    server &#123;</span><br><span class="line">        listen       443 ssl;</span><br><span class="line">        server_name  localhost;</span><br><span class="line"></span><br><span class="line">        # ssl_certificate      cert.pem;</span><br><span class="line">        # ssl_certificate_key  cert.key;</span><br><span class="line">        ssl_certificate      server.crt;</span><br><span class="line">        ssl_certificate_key  server.key;</span><br><span class="line"></span><br><span class="line">        # ssl_session_cache    shared:SSL:1m;</span><br><span class="line">        # ssl_session_timeout  5m;</span><br><span class="line"></span><br><span class="line">        # ssl_ciphers  HIGH:!aNULL:!MD5;</span><br><span class="line">        # ssl_prefer_server_ciphers  on;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            root   /www/;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>那我这里想在我的项目里用到https协议，这样还不能满足，我需要更改下location</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">            proxy_pass http://my.corp.qunar.com:3002;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>还是会报一个错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET https://my.corp.qunar.com/index.js net::ERR_CONTENT_LENGTH_MISMATCH 200 (OK)</span><br></pre></td></tr></table></figure>
+<p>google后发现是因为nginx会从缓存中拿文件，是这个目录<code>proxy_temp</code>,而没有权限，所以网上一些方法是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R _www:admin proxy_temp</span><br></pre></td></tr></table></figure></p>
+<p>不过更改文件夹权限我是莫名地抵触的，我选择了一个我认为还不错的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">            proxy_pass http://my.corp.qunar.com:3002;</span><br><span class="line">            proxy_buffering off;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>就是把缓存禁掉</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>ng访问地址404 自己会根据优先级逐级查找，如果都404，则按照原地址访问。这样就有可能导致形成内循环，相互跳转，产生错误。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/07/redux源码随便读了读/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1041,7 +1248,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1123,7 +1330,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

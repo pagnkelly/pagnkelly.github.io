@@ -1822,7 +1822,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #dd8aff;
+  background: #ffff12;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3033,7 +3033,6 @@ div.txt-right {
   height: 0 !important;
 }
 body {
-  background-image: url("https://github.com/pagnkelly/imageszz/blob/master/blog/bg2.jpg?raw=true");
   background-attachment: fixed;
   background-size: 100%;
   background-repeat: no-repeat;
